@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "eegbot"
+version = "0.1.0"
+description = "EEG-controlled robot: DSI-7 motor-imagery decoding to continuous steering commands"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+# Runtime deps are installed via environment.yml (conda). They are listed here
+# so `pip install -e .` in a non-conda env still resolves, but conda is the
+# supported path -- see README.
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "scikit-learn>=1.4",
+    "matplotlib>=3.8",
+    "pyyaml>=6.0",
+    "joblib>=1.3",
+    "mne>=1.6",
+    "pyriemann>=0.12",
+]
+
+[project.optional-dependencies]
+stream = ["mne-lsl>=1.2", "pylsl>=1.16"]
+session = ["psychopy>=2024.1"]
+datasets = ["moabb>=1.1"]
+dev = ["pytest>=8.0", "pytest-cov", "ruff>=0.4", "mypy>=1.9"]
+
+[project.scripts]
+eegbot = "eegbot.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "SIM"]
+ignore = ["E501"]  # line length is enforced by the formatter, not the linter
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Lets the suite run straight from a clone without `pip install -e .` first.
+pythonpath = ["src"]
+addopts = "-q --strict-markers"
+markers = [
+    "slow: requires network or a full dataset download",
+    "hardware: requires a connected DSI-7",
+]
+filterwarnings = ["ignore::DeprecationWarning:mne.*"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+warn_unused_ignores = true

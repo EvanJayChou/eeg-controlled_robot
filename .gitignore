@@ -1,0 +1,47 @@
+# === Data (never commit EEG recordings or downloaded datasets) ===
+data/
+outputs/
+*.fif
+*.edf
+*.bdf
+*.set
+*.gdf
+*.npy
+*.npz
+
+# === MOABB / MNE download caches ===
+mne_data/
+.mne/
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.eggs/
+
+# === Environments ===
+.venv/
+venv/
+env/
+
+# === Tooling ===
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# === Notebooks ===
+.ipynb_checkpoints/
+
+# === Secrets / local config ===
+.env
+*.local.yaml
+
+# === OS / editor ===
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

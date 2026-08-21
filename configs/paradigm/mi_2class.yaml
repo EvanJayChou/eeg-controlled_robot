@@ -1,0 +1,48 @@
+# Recording-session structure for 2-class left/right hand motor imagery.
+#
+# Timings deliberately mirror Lee2019 (4 s imagery after a 1 s arrow cue) so our
+# own recordings and the benchmark dataset stay comparable.
+
+# === Trial timing (seconds) ===
+fixation_s: 2.0
+cue_s: 1.0
+imagery_s: 4.0
+rest_range_s: [2.0, 3.5]   # jittered, so subjects can't entrain to the rhythm
+
+# === Structure ===
+n_runs: 6
+trials_per_run: 20          # must be even; classes balance within each run
+max_consecutive_same: 3     # avoid long same-class streaks
+
+# === Quality-control blocks (seconds) ===
+# Alpha bookends run at session start and end. With P3/Pz/P4 there should be an
+# obvious posterior alpha rise on eye closure -- this is the go/no-go check on
+# electrode contact, and it happens while the subject is still in the chair.
+alpha_block_s: 60.0
+
+# Relaxed, no imagery. Not a third class: this is the data the dead zone and the
+# centering bias are calibrated against.
+idle_block_s: 60.0
+
+# === Cue script ===
+# Versioned and stored here so it is byte-identical across sessions and
+# operators. Bump the version if the wording changes; it is written into every
+# session sidecar.
+cue_script_version: "v1"
+instructions: |
+  You will see an arrow pointing left or right. When it appears, imagine
+  GRASPING with that hand -- as if squeezing a ball.
+
+  Imagine the FEELING of the movement: the muscles tightening, the pressure in
+  your palm. Do not picture a hand from the outside; feel it from the inside.
+  Kinesthetic imagery decodes far better than visual imagery.
+
+  Keep imagining until the arrow disappears, then relax.
+
+  Please do NOT:
+    - actually move your hands, fingers, or arms
+    - clench your jaw or tense your neck
+    - blink or move your eyes during the arrow
+
+  Muscle activity shows up in EEG and can look like a strong signal while
+  teaching the system nothing useful. Blink freely during the rest periods.

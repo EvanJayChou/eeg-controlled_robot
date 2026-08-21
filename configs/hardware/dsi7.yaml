@@ -1,0 +1,28 @@
+# How to reach the DSI-7.
+#
+# Not yet validated against real hardware -- the headset is on order. Until it
+# arrives, everything runs against the replay/synthetic sources, which ignore
+# this file entirely.
+
+# DSI-Streamer's LSL output, or dsi2lsl's --lsl-stream-name. "WS-default" is the
+# dsi2lsl default.
+lsl_stream_name: "WS-default"
+lsl_stream_type: "EEG"
+
+# Marker outlet published by the PsychoPy cue program and recorded alongside EEG.
+marker_stream_name: "eegbot-markers"
+
+# Bluetooth serial port, only needed if driving dsi2lsl directly rather than
+# using DSI-Streamer. COMx on Windows. Note only one program can hold the
+# device at a time -- close DSI-Streamer before running dsi2lsl.
+serial_port: "COM4"
+
+connect_timeout_s: 10.0
+
+extra:
+  # Reference configuration reported by the amplifier. The DSI-7 uses ear clips
+  # with a common-mode follower at Fz; Fz is a driven ground, not a data channel.
+  reference: "linked_ears"
+  # Hardware trigger channel. Higher precision than LSL markers but unused for
+  # now -- see README for the tradeoff.
+  trigger_channel: "TRG"

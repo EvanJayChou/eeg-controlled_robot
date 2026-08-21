@@ -1,0 +1,28 @@
+# The shared PreprocessSpec. Consumed by BOTH the offline analysis path and the
+# online decoding loop -- changing anything here changes both at once, which is
+# the point. See src/eegbot/sigproc/apply.py.
+
+channels: [F3, F4, C3, C4, P3, Pz, P4]
+sfreq: 300.0
+
+# US mains. Wide enough to tolerate a little drift off 60 Hz.
+notch: [57.0, 63.0]
+
+# Wider than mu (8-13) and beta (13-30) so a filter bank has room later.
+band: [4.0, 40.0]
+filter_order: 4
+
+# Decoding window. Training crops are exactly this long so the training
+# distribution matches deployment; the hop sets the 10 Hz control rate.
+window_s: 1.0
+hop_s: 0.1
+
+# Relative to cue onset. Starts at 0.5 s to exclude the cue-onset visual evoked
+# response -- without this the classifier learns the arrow, not the imagery.
+trial_window: [0.5, 3.5]
+
+# Peak-to-peak screening, microvolts. Dry electrodes are noisier than gel, so
+# this is looser than a typical wet-EEG threshold; revisit once we have real
+# DSI-7 recordings to look at.
+reject_p2p_uv: 150.0
+flat_p2p_uv: 0.5
